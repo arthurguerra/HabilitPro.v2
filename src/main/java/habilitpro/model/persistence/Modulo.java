@@ -3,6 +3,7 @@ package habilitpro.model.persistence;
 import habilitpro.enums.StatusModuloEnum;
 
 import javax.persistence.*;
+import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
 import java.util.Set;
 
@@ -41,13 +42,56 @@ public class Modulo {
     public Modulo() {
     }
 
-    public Modulo(Trilha trilha, String nome, String habilidades, String tarefaValidacao, int prazoLimite, StatusModuloEnum statusModulo) {
+    public Modulo(Trilha trilha, String nome, String habilidades, String tarefaValidacao, int prazoLimite) {
         this.trilha = trilha;
         this.nome = nome;
         this.habilidades = habilidades;
         this.tarefaValidacao = tarefaValidacao;
         this.prazoLimite = prazoLimite;
-        this.statusModulo = statusModulo;
+        this.statusModulo = StatusModuloEnum.nao_iniciado;
+    }
+
+    public Modulo(Trilha trilha, String nome, int prazoLimite) {
+        this.trilha = trilha;
+        this.nome = nome;
+        this.prazoLimite = prazoLimite;
+        this.statusModulo = StatusModuloEnum.nao_iniciado;
+    }
+
+    public Modulo(Trilha trilha, String nome) {
+        this.trilha = trilha;
+        this.nome = nome;
+        this.prazoLimite = 10;
+        this.statusModulo = StatusModuloEnum.nao_iniciado;
+    }
+
+    public void iniciarModulo() {
+        this.statusModulo = StatusModuloEnum.andamento;
+        this.inicio = OffsetDateTime.now();
+    }
+
+    public void finalizarModulo() {
+        this.statusModulo = StatusModuloEnum.fase_avaliacao;
+        this.fim = OffsetDateTime.now();
+    }
+
+    public void verificaPrazoLimite() {
+        if (fim == null) throw new IllegalStateException("Finalize o módulo primeiro para depois verificar o prazo limite para a entrega da avaliação.");
+
+        OffsetDateTime diaPrazoLimite = fim;
+        for (int i = prazoLimite; i > 0; i--) {
+            diaPrazoLimite = diaPrazoLimite.plusDays(1);
+            if (diaPrazoLimite.getDayOfWeek() == DayOfWeek.SATURDAY || diaPrazoLimite.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                i++;
+            }
+        }
+        if (OffsetDateTime.now().isAfter(diaPrazoLimite)) {
+            this.statusModulo = StatusModuloEnum.avaliacao_finalizada;
+        }
+
+//        if (DAYS.between(fim, OffsetDateTime.now()) > prazoLimite) {
+//            this.status = StatusModulo.avaliacao_finalizada;
+//        }
     }
 
     public Long getId() {
@@ -120,5 +164,20 @@ public class Modulo {
 
     public void setFim(OffsetDateTime fim) {
         this.fim = fim;
+    }
+
+    @Override
+    public String toString() {
+        return "Modulo{" +
+                "id=" + id +
+                ", trilha=" + trilha.getNome() +
+                ", nome='" + nome + '\'' +
+                ", habilidades='" + habilidades + '\'' +
+                ", tarefaValidacao='" + tarefaValidacao + '\'' +
+                ", prazoLimite=" + prazoLimite +
+                ", statusModulo=" + statusModulo.getDisplayName() +
+                ", inicio=" + inicio +
+                ", fim=" + fim +
+                '}';
     }
 }
