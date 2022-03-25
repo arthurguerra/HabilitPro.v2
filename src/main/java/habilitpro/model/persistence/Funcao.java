@@ -9,7 +9,7 @@ public class Funcao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     public Funcao() {
@@ -33,5 +33,13 @@ public class Funcao {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Funcao{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                '}';
     }
 }
