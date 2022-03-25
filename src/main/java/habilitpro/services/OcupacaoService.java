@@ -27,8 +27,8 @@ public class OcupacaoService {
     public void create(Ocupacao ocupacao) {
         this.LOG.info("Preparando para criar Ocupação");
         if (ocupacao == null) {
-            this.LOG.error("Ocupação informada está nulo!");
-            throw new RuntimeException("Company is null!");
+            this.LOG.error("Ocupação informada está nula!");
+            throw new RuntimeException("Occupation is null!");
         }
         try {
             getBeginTransaction();
@@ -47,7 +47,6 @@ public class OcupacaoService {
             this.LOG.error("O ID da Ocupação informada está nulo!");
             throw new RuntimeException("The ID is Null");
         }
-
         Ocupacao ocupacao = this.ocupacaoDao.getById(id);
         validaOcupacaoNula(ocupacao);
         this.LOG.info("Ocupação encontrada com sucesso!");
@@ -74,7 +73,7 @@ public class OcupacaoService {
         this.LOG.info("Ocupação atualizada com sucesso!");
     }
 
-    private Ocupacao findByName(String nome) {
+    public Ocupacao findByName(String nome) {
         if (nome == null || nome.isEmpty()) {
             this.LOG.error("O Nome não pode ser Nulo!");
             throw new RuntimeException("Name is null!");
@@ -115,7 +114,7 @@ public class OcupacaoService {
     private void validaOcupacaoNula(Ocupacao ocupacao) {
         if (ocupacao == null) {
             this.LOG.error("A Ocupação não Existe!");
-            throw new EntityNotFoundException("Ocupation not found!");
+            throw new EntityNotFoundException("Occupation not found!");
         }
     }
 

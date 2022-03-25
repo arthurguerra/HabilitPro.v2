@@ -1,12 +1,17 @@
 package habilitpro.application;
 
 import habilitpro.connection.JpaConnectionFactory;
-import habilitpro.services.EmpresaService;
-import habilitpro.services.UsuarioService;
+import habilitpro.enums.NotaEnum;
+import habilitpro.model.persistence.Empresa;
+import habilitpro.model.persistence.Modulo;
+import habilitpro.model.persistence.Ocupacao;
+import habilitpro.model.persistence.Trilha;
+import habilitpro.services.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import java.util.List;
 import java.util.Scanner;
 
 public class HabilitProApp {
@@ -20,10 +25,13 @@ public class HabilitProApp {
         EntityManager entityManager = new JpaConnectionFactory().getEntityManager();
         UsuarioService usuarioService = new UsuarioService(entityManager);
         EmpresaService empresaService = new EmpresaService(entityManager);
-
-
-
+        TrilhaService trilhaService = new TrilhaService(entityManager);
+        OcupacaoService ocupacaoService = new OcupacaoService(entityManager);
+        ModuloService moduloService = new ModuloService(entityManager);
 //        usuarioService.autenticaUsuarioESenha(getUsuario(), getSenha());
+
+        Modulo modulo = moduloService.getById(1L);
+        System.out.println(modulo);
 
 //        Usuario usuario = new Usuario("Administrador", "89086607047", "adm@teste.com", "12345678a");
 //        Perfil perfil = new Perfil(usuario, PerfilAcessoEnum.administrativo);

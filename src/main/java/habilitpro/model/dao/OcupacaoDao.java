@@ -14,13 +14,6 @@ public class OcupacaoDao {
         this.entityManager = entityManager;
     }
 
-    public Ocupacao findByName(String nome) {
-        String sql = "SELECT * FROM Ocupacao WHERE LOWER(nome) =:nome";
-        return (Ocupacao) this.entityManager.createNativeQuery(sql, Ocupacao.class)
-                .setParameter("nome", nome.toLowerCase())
-                .getSingleResult();
-    }
-
     public void create(Ocupacao ocupacao) {
         this.entityManager.persist(ocupacao);
     }
@@ -38,5 +31,12 @@ public class OcupacaoDao {
         String sql = "SELECT * FROM Ocupacao";
         return this.entityManager.createNativeQuery(sql, Ocupacao.class)
                 .getResultList();
+    }
+
+    public Ocupacao findByName(String nome) {
+        String sql = "SELECT * FROM Ocupacao WHERE LOWER(nome) =:nome";
+        return (Ocupacao) this.entityManager.createNativeQuery(sql, Ocupacao.class)
+                .setParameter("nome", nome.toLowerCase())
+                .getSingleResult();
     }
 }
