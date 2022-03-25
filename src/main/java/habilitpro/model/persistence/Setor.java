@@ -9,7 +9,7 @@ public class Setor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String nome;
 
     public Setor() {
@@ -33,5 +33,13 @@ public class Setor {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    @Override
+    public String toString() {
+        return "Setor{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                '}';
     }
 }
