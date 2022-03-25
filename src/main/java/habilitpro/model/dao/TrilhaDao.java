@@ -36,8 +36,16 @@ public class TrilhaDao {
     @SuppressWarnings("unchecked")
     public List<Trilha> listByEmpresa(Long empresaId) {
         String sql = "SELECT * FROM Trilha WHERE empresa_id=:empresa_id";
-        return this.entityManager.createNativeQuery(sql, Empresa.class)
+        return this.entityManager.createNativeQuery(sql, Trilha.class)
                 .setParameter("empresa_id", empresaId)
+                .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<Trilha> listByOcupacao(Long ocupacaoId) {
+        String sql = "SELECT * FROM Trilha WHERE ocupacao_id=:ocupacao_id";
+        return this.entityManager.createNativeQuery(sql, Trilha.class)
+                .setParameter("ocupacao_id", ocupacaoId)
                 .getResultList();
     }
 }

@@ -35,13 +35,9 @@ public class Trilha {
     public Trilha() {
     }
 
-    public Trilha(Empresa empresa, Ocupacao ocupacao, String nome, String apelido, NotaEnum nivelDeSatisfacao, String anotacoes) {
+    public Trilha(Empresa empresa, Ocupacao ocupacao) {
         this.empresa = empresa;
         this.ocupacao = ocupacao;
-        this.nome = nome;
-        this.apelido = apelido;
-        this.nivelDeSatisfacao = nivelDeSatisfacao;
-        this.anotacoes = anotacoes;
     }
 
     public Long getId() {
