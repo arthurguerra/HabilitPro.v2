@@ -40,4 +40,11 @@ public class EmpresaDao {
                 .setParameter("nome", nome.toLowerCase())
                 .getResultList();
     }
+
+    public Empresa findByCnpj(String cnpj) {
+        String sql = "SELECT * FROM Empresa WHERE cnpj =:cnpj";
+        return (Empresa) this.entityManager.createNativeQuery(sql, Empresa.class)
+                .setParameter("cnpj", cnpj)
+                .getSingleResult();
+    }
 }

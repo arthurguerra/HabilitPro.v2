@@ -2,11 +2,13 @@ package habilitpro.services;
 
 import habilitpro.model.dao.EmpresaDao;
 import habilitpro.model.persistence.Empresa;
+import habilitpro.model.persistence.Trilha;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,6 +101,19 @@ public class EmpresaService {
         return empresas;
     }
 
+    public Empresa getByID(Long id) {
+        if (id == null) {
+            this.LOG.error("O ID está nulo!");
+            throw new RuntimeException("ID is null!");
+        }
+        Empresa empresa = this.empresaDao.getById(id);
+        if(empresa == null) {
+            this.LOG.error("Não foi encontrada a Empresa com ID " + id);
+            throw new EntityNotFoundException("Enterprise not found!");
+        }
+        return empresa;
+    }
+
     public List<Empresa> listByName(String nome) {
         if(nome == null || nome.isEmpty()) {
             this.LOG.info("O parâmetro nome está vazio!");
@@ -113,6 +128,19 @@ public class EmpresaService {
         }
         this.LOG.info("Foram encontrados "+ empresas.size() + " Empresas com o nome "+nome);
         return empresas;
+    }
+
+    public Empresa  findByCnpj(String cnpj) {
+        if (cnpj == null || cnpj.isEmpty()) {
+            this.LOG.error("O CNPJ não pode ser nulo!");
+            throw new RuntimeException("CNPJ is null!");
+        }
+        try {
+            return this.empresaDao.findByCnpj(cnpj);
+        } catch (NoResultException e) {
+            this.LOG.info("Empresa não encontrada. Criando nova Empresa! ");
+            return null;
+        }
     }
 
     private void validaEmpresaNula(Empresa empresa) {
