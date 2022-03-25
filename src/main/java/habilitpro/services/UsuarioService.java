@@ -103,6 +103,16 @@ public class UsuarioService {
         return usuarios;
     }
 
+    public Usuario getById(Long id) {
+        if (id == null) {
+            this.LOG.error("O ID está nulo!");
+            throw new RuntimeException("Id is null!");
+        }
+        Usuario usuario = this.usuarioDao.getById(id);
+        validaUsuarioNulo(usuario);
+        return usuario;
+    }
+
     public List<Usuario> listByName(String name) {
         if(name == null || name.isEmpty()) {
             this.LOG.info("O parâmetro nome está vazio!");

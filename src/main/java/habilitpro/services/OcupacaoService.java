@@ -73,19 +73,6 @@ public class OcupacaoService {
         this.LOG.info("Ocupação atualizada com sucesso!");
     }
 
-    public Ocupacao findByName(String nome) {
-        if (nome == null || nome.isEmpty()) {
-            this.LOG.error("O Nome não pode ser Nulo!");
-            throw new RuntimeException("Name is null!");
-        }
-        try {
-            return this.ocupacaoDao.findByName(nome);
-        } catch (NoResultException e) {
-            this.LOG.info("Ocupação não encontrada! Criando nova Ocupação");
-            return null;
-        }
-    }
-
     public List<Ocupacao> listAll() {
         this.LOG.info("Preparando para listar as Ocupações");
         List<Ocupacao> ocupacoes = this.ocupacaoDao.listAll();
@@ -109,6 +96,19 @@ public class OcupacaoService {
             throw new EntityNotFoundException("Occupation not found!");
         }
         return ocupacao;
+    }
+
+    public Ocupacao findByName(String nome) {
+        if (nome == null || nome.isEmpty()) {
+            this.LOG.error("O Nome não pode ser Nulo!");
+            throw new RuntimeException("Name is null!");
+        }
+        try {
+            return this.ocupacaoDao.findByName(nome);
+        } catch (NoResultException e) {
+            this.LOG.info("Ocupação não encontrada! Criando nova Ocupação");
+            return null;
+        }
     }
 
     private void validaOcupacaoNula(Ocupacao ocupacao) {
