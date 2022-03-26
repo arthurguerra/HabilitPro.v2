@@ -28,11 +28,7 @@ public class EmpresaService {
     public void create(Empresa empresa) {
         this.LOG.info("Preparando para a Criação de uma Empresa");
         validaEmpresaNula(empresa);
-
-        if (!validaCNPJ(empresa.getCnpj())) {
-            this.LOG.error("CNPJ Inválido!");
-            throw new IllegalArgumentException("Invalid CNPJ!");
-        }
+        validaEmpresa(empresa);
         try {
             getBeginTransaction();
             this.empresaDao.create(empresa);
@@ -71,6 +67,7 @@ public class EmpresaService {
             this.LOG.error("Um dos parâmetros está nulo!");
             throw new RuntimeException("The parameter is null!");
         }
+        validaEmpresa(novaEmpresa);
         Empresa empresa = this.empresaDao.getById(empresaId);
         validaEmpresaNula(empresa);
         this.LOG.info("Empresa encontrada no banco");
@@ -159,6 +156,13 @@ public class EmpresaService {
         this.LOG.info("Commitando e Fechando transação com o banco de dados");
         entityManager.getTransaction().commit();
         entityManager.close();
+    }
+
+    private void validaEmpresa(Empresa empresa) {
+        if (!validaCNPJ(empresa.getCnpj())) {
+            this.LOG.error("CNPJ Inválido!");
+            throw new IllegalArgumentException("Invalid CNPJ!");
+        }
     }
 
     private boolean validaCNPJ(String CNPJ) {
