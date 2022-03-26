@@ -27,19 +27,7 @@ public class UsuarioService {
     public void create(Usuario usuario) {
         this.LOG.info("Preparando para a Criação de um Usuário");
         validaUsuarioNulo(usuario);
-
-        if(!validaEmail(usuario.getEmail())) {
-            this.LOG.error("Email Inválido! O e-mail deve estar no formato “usuario@dominio.terminacao”");
-            throw new IllegalArgumentException("Invalid Email!");
-        }
-        if(!validaSenha(usuario.getSenha())) {
-            this.LOG.error("Senha Inválida! A senha deve possuir, no mínimo, 8 caracteres, e deve conter letras e números.");
-            throw new IllegalArgumentException("Invalid Password!");
-        }
-        if(!validaCPF(usuario.getCpf())) {
-            this.LOG.error("CPF Inválido!");
-            throw new IllegalArgumentException("Invalid CPF!");
-        }
+        validaUsuario(usuario);
         try {
             getBeginTransaction();
             this.usuarioDao.create(usuario);
@@ -77,6 +65,7 @@ public class UsuarioService {
             this.LOG.error("O parâmetro está nulo!");
             throw new RuntimeException("The parameter is null!");
         }
+        validaUsuario(novoUsuario);
         Usuario usuario = this.usuarioDao.getById(usuarioId);
         validaUsuarioNulo(usuario);
         getBeginTransaction();
@@ -145,6 +134,21 @@ public class UsuarioService {
         }
         this.LOG.info("Autenticação de Usuário Finalizada com Sucesso!");
         return true;
+    }
+
+    private void validaUsuario(Usuario usuario) {
+        if(!validaEmail(usuario.getEmail())) {
+            this.LOG.error("Email Inválido! O e-mail deve estar no formato “usuario@dominio.terminacao”");
+            throw new IllegalArgumentException("Invalid Email!");
+        }
+        if(!validaSenha(usuario.getSenha())) {
+            this.LOG.error("Senha Inválida! A senha deve possuir, no mínimo, 8 caracteres, e deve conter letras e números.");
+            throw new IllegalArgumentException("Invalid Password!");
+        }
+        if(!validaCPF(usuario.getCpf())) {
+            this.LOG.error("CPF Inválido!");
+            throw new IllegalArgumentException("Invalid CPF!");
+        }
     }
 
     private void validaUsuarioNulo(Usuario usuario) {
