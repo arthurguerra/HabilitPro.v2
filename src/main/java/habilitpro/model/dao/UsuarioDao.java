@@ -1,5 +1,6 @@
 package habilitpro.model.dao;
 
+import habilitpro.model.persistence.PerfilAcesso;
 import habilitpro.model.persistence.Usuario;
 
 import javax.persistence.EntityManager;
@@ -45,5 +46,14 @@ public class UsuarioDao {
         return (Usuario) this.entityManager.createNativeQuery(sql, Usuario.class)
                 .setParameter("email", email)
                 .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeUsuarioPossuiPerfisAtivos(Long usuarioId) {
+        String sql = "SELECT * FROM perfilacesso WHERE usuario_id=:usuario_id";
+        List<PerfilAcesso> perfis = this.entityManager.createNativeQuery(sql, PerfilAcesso.class)
+                .setParameter("usuario_id", usuarioId)
+                .getResultList();
+        return perfis != null;
     }
 }

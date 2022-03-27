@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +49,10 @@ public class UsuarioService {
         Usuario usuario = this.usuarioDao.getById(id);
         validaUsuarioNulo(usuario);
         this.LOG.info("Usuário encontrado com sucesso!");
+        if (this.usuarioDao.verificaSeUsuarioPossuiPerfisAtivos(usuario.getId())) {
+            this.LOG.error("O Usuário não pode ser excluido porque possui Perfis de Acesso ativos relacionados!");
+            throw new PersistenceException("User cannot be excluded because it has active related Access Profiles!");
+        }
         try {
             getBeginTransaction();
             this.usuarioDao.delete(usuario);
