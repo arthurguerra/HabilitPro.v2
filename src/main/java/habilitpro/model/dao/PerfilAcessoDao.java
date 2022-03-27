@@ -41,7 +41,12 @@ public class PerfilAcessoDao {
                 .getResultList();
     }
 
-//    @SuppressWarnings("unchecked")
-//    public List<PerfilAcesso> listByTipoDePerfilAcesso(PerfilAcessoEnum p)
+    @SuppressWarnings("unchecked")
+    public List<PerfilAcesso> listByTipoDePerfilAcesso(String nomePerfilAcesso) {
+        String sql = "SELECT * FROM perfilacesso WHERE perfilacessoenum=:perfilacessoenum";
+        return this.entityManager.createNativeQuery(sql, PerfilAcesso.class)
+                .setParameter("perfilacessoenum", nomePerfilAcesso.toLowerCase())
+                .getResultList();
+    }
 
 }

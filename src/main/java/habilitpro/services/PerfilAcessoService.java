@@ -120,7 +120,22 @@ public class PerfilAcessoService {
             this.LOG.info("Nenhum Perfil de Acesso encontrado para o Usuário de ID "+usuarioId);
             return new ArrayList<>();
         }
-        this.LOG.info("Foram encontradas "+perfis.size()+" Perfis de Acesso para o Usuário com ID "+usuarioId);
+        this.LOG.info("Foram encontrados "+perfis.size()+" Perfis de Acesso para o Usuário com ID "+usuarioId);
+        return perfis;
+    }
+
+    public List<PerfilAcesso> listByTipoDePerfilAcesso(String perfilAcesso) {
+        this.LOG.info("Preparando para buscar Perfis de Acesso do tipo: "+perfilAcesso);
+        if(perfilAcesso == null) {
+            this.LOG.error("O nome do Perfil de Acesso não pode ser nulo!");
+            throw new RuntimeException("Name is null!");
+        }
+        List<PerfilAcesso> perfis = this.perfilAcessoDao.listByTipoDePerfilAcesso(perfilAcesso);
+        if(perfis == null) {
+            this.LOG.info("Nenhum Perfil de Acesso encontrado do tipo: "+perfilAcesso);
+            return null;
+        }
+        this.LOG.info("Foram encontrados "+perfis.size()+" Perfis de Acesso do tipo "+perfilAcesso);
         return perfis;
     }
 
