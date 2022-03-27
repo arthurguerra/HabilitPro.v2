@@ -1,6 +1,5 @@
 package habilitpro.model.dao;
 
-import habilitpro.model.persistence.Empresa;
 import habilitpro.model.persistence.Modulo;
 import habilitpro.model.persistence.Trilha;
 
