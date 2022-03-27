@@ -104,7 +104,7 @@ public class TrilhaService {
         trilha.setNivelDeSatisfacao(novaTrilha.getNivelDeSatisfacao());
         trilha.setAnotacoes(trilha.getAnotacoes());
         commitAndCloseTransaction();
-        this.LOG.info("Trilha atualizada ocm sucesso!");
+        this.LOG.info("Trilha atualizada com sucesso!");
     }
 
     public List<Trilha> listAll() {
