@@ -1,13 +1,9 @@
 package habilitpro.services;
 
 import habilitpro.model.dao.EmpresaDao;
-import habilitpro.model.dao.TrabalhadorDao;
-import habilitpro.model.dao.TrilhaDao;
 import habilitpro.model.persistence.Empresa;
-import habilitpro.model.persistence.Trilha;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
