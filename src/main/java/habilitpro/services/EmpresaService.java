@@ -1,14 +1,18 @@
 package habilitpro.services;
 
 import habilitpro.model.dao.EmpresaDao;
+import habilitpro.model.dao.TrabalhadorDao;
+import habilitpro.model.dao.TrilhaDao;
 import habilitpro.model.persistence.Empresa;
 import habilitpro.model.persistence.Trilha;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.hibernate.exception.ConstraintViolationException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +53,7 @@ public class EmpresaService {
         Empresa empresa = this.empresaDao.getById(id);
         validaEmpresaNula(empresa);
         this.LOG.info("Empresa encontrada com sucesso!");
+        verificaSeEmpresaPossuiRelacionamento(empresa);
 
         try{
             getBeginTransaction();
@@ -137,6 +142,17 @@ public class EmpresaService {
         } catch (NoResultException e) {
             this.LOG.info("Empresa não encontrada. Criando nova Empresa! ");
             return null;
+        }
+    }
+
+    private void verificaSeEmpresaPossuiRelacionamento(Empresa empresa) {
+        if (empresaDao.verificaSeEmpresaPossuiTrilhasAtivas(empresa.getId())) {
+            this.LOG.error("A Empresa não pode ser excluida pois possui Trilhas relacionadas!");
+            throw new PersistenceException("The Company cannot be excluded because it has active related Trails!");
+        }
+        if (empresaDao.verificaSeEmpresaPossuiTrabalhadoresAtivos(empresa.getId())) {
+            this.LOG.error("A Empresa não pode ser excluida porque possui Trabalhadores ativos relacionadados!");
+            throw new PersistenceException("The Company cannot be excluded because it has active related Employees!");
         }
     }
 

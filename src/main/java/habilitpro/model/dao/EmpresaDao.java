@@ -1,6 +1,8 @@
 package habilitpro.model.dao;
 
 import habilitpro.model.persistence.Empresa;
+import habilitpro.model.persistence.Trabalhador;
+import habilitpro.model.persistence.Trilha;
 import habilitpro.model.persistence.Usuario;
 
 import javax.persistence.EntityManager;
@@ -46,5 +48,23 @@ public class EmpresaDao {
         return (Empresa) this.entityManager.createNativeQuery(sql, Empresa.class)
                 .setParameter("cnpj", cnpj)
                 .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeEmpresaPossuiTrilhasAtivas(Long id) {
+        String sql = "SELECT * FROM Trilha WHERE empresa_id=:empresa_id";
+        List<Trilha> trilhas = this.entityManager.createNativeQuery(sql, Trilha.class)
+                .setParameter("empresa_id", id)
+                .getResultList();
+        return trilhas != null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeEmpresaPossuiTrabalhadoresAtivos(Long empresaId) {
+        String sql = "SELECT * FROM Trabalhador WHERE empresa_id=:empresa_id";
+        List<Trabalhador> trabalhadores = this.entityManager.createNativeQuery(sql, Trabalhador.class)
+                .setParameter("empresa_id", empresaId)
+                .getResultList();
+        return trabalhadores != null;
     }
 }

@@ -39,4 +39,13 @@ public class OcupacaoDao {
                 .setParameter("nome", nome.toLowerCase())
                 .getSingleResult();
     }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSePossuiTrilhasAtivas(Long ocupacaoId) {
+        String sql = "SELECT * FROM Trilha WHERE ocupacao_id=:ocupacao_id";
+        List<Trilha> trilhas = this.entityManager.createNativeQuery(sql, Trilha.class)
+                .setParameter("ocupacao_id", ocupacaoId)
+                .getResultList();
+        return trilhas != null;
+    }
 }

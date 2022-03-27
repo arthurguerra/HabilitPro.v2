@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class SetorService {
         Setor setor = this.setorDao.getById(id);
         validaSetorNulo(setor);
         this.LOG.info("Setor encontrado com sucesso!");
+        if (setorDao.verificaSeSetorPossuiTrabalhadoresAtivos(id)) {
+            this.LOG.error("O Setor não pode ser excluido porque possui Trabalhadores ativos relacionadados!");
+            throw new PersistenceException("The Department cannot be excluded because it has active related Employees!");
+        }
 
         getBeginTransaction();
         this.setorDao.delete(setor);

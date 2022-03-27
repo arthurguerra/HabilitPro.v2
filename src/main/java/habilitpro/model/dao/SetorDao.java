@@ -1,6 +1,7 @@
 package habilitpro.model.dao;
 
 import habilitpro.model.persistence.Setor;
+import habilitpro.model.persistence.Trabalhador;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -37,5 +38,14 @@ public class SetorDao {
         return (Setor) this.entityManager.createNativeQuery(sql, Setor.class)
                 .setParameter("nome", nome.toLowerCase())
                 .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeSetorPossuiTrabalhadoresAtivos(Long setorId) {
+        String sql = "SELECT * FROM Trabalhador WHERE setor_id=:setor_id";
+        List<Trabalhador> trabalhadores = this.entityManager.createNativeQuery(sql, Trabalhador.class)
+                .setParameter("setor_id", setorId)
+                .getResultList();
+        return trabalhadores != null;
     }
 }

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +51,10 @@ public class OcupacaoService {
         Ocupacao ocupacao = this.ocupacaoDao.getById(id);
         validaOcupacaoNula(ocupacao);
         this.LOG.info("Ocupação encontrada com sucesso!");
+        if (this.ocupacaoDao.verificaSePossuiTrilhasAtivas(id)) {
+            this.LOG.info("A Ocupação não pode ser excluida porque possui Trilhas ativas relacionadas!");
+            throw new PersistenceException("The Occupation cannot be excluided because it has active related Trails!");
+        }
 
         getBeginTransaction();
         this.ocupacaoDao.delete(ocupacao);

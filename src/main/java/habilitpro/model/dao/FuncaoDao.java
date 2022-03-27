@@ -1,6 +1,7 @@
 package habilitpro.model.dao;
 
 import habilitpro.model.persistence.Funcao;
+import habilitpro.model.persistence.Trabalhador;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -37,5 +38,14 @@ public class FuncaoDao {
         return (Funcao) this.entityManager.createNativeQuery(sql, Funcao.class)
                 .setParameter("nome", nome)
                 .getSingleResult();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeFuncaoPossuiTrabalhadoresAtivos(Long funcaoId) {
+        String sql = "SELECT * FROM Trabalhador WHERE funcao_id=:funcao_id";
+        List<Trabalhador> trabalhadores = this.entityManager.createNativeQuery(sql, Trabalhador.class)
+                .setParameter("funcao_id", funcaoId)
+                .getResultList();
+        return trabalhadores != null;
     }
 }

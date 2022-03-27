@@ -1,6 +1,7 @@
 package habilitpro.model.dao;
 
 import habilitpro.model.persistence.Empresa;
+import habilitpro.model.persistence.Modulo;
 import habilitpro.model.persistence.Trilha;
 
 import javax.persistence.EntityManager;
@@ -47,5 +48,14 @@ public class TrilhaDao {
         return this.entityManager.createNativeQuery(sql, Trilha.class)
                 .setParameter("ocupacao_id", ocupacaoId)
                 .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeTrilhaPossuiModulosAtivos(Long id) {
+        String sql = "SELECT * FROM Modulo WHERE trilha_id=:trilha_id";
+        List<Modulo> modulos = this.entityManager.createNativeQuery(sql, Modulo.class)
+                .setParameter("trilha_id", id)
+                .getResultList();
+        return modulos != null;
     }
 }

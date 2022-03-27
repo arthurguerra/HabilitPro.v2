@@ -7,6 +7,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,6 +52,10 @@ public class ModuloService {
         Modulo modulo = this.moduloDao.getById(id);
         validaModuloNulo(modulo);
         this.LOG.info("Módulo encontrado com sucesso!");
+        if (moduloDao.verificaSeModuloPossuiAvaliacoesAtivas(id)) {
+            this.LOG.error("O Módulo não pode ser excluido porque possui Avaliações ativas relacionadas!");
+            throw new PersistenceException("The Module cannot be excluded because it has active related Assessments!");
+        }
 
         getBeginTransaction();
         this.moduloDao.delete(modulo);

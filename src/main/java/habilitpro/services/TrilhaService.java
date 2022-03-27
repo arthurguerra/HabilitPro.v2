@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.PersistenceException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +79,10 @@ public class TrilhaService {
         Trilha trilha = trilhaDao.getById(id);
         validaTrilhaNula(trilha);
         this.LOG.info("Trilha encontrada com sucesso!");
+        if (this.trilhaDao.verificaSeTrilhaPossuiModulosAtivos(trilha.getId())) {
+            this.LOG.error("A Trilha não pode ser excluida porque possui Módulos ativos relacionados!");
+            throw new PersistenceException("The Trail cannot be excluded because it has active related Modules!");
+        }
 
         getBeginTransaction();
         this.trilhaDao.delete(trilha);

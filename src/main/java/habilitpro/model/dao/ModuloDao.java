@@ -1,5 +1,6 @@
 package habilitpro.model.dao;
 
+import habilitpro.model.persistence.Avaliacao;
 import habilitpro.model.persistence.Modulo;
 
 import javax.persistence.EntityManager;
@@ -38,6 +39,15 @@ public class ModuloDao {
         return this.entityManager.createNativeQuery(sql, Modulo.class)
                 .setParameter("trilha_id", trilhaId)
                 .getResultList();
+    }
+
+    @SuppressWarnings("unchecked")
+    public boolean verificaSeModuloPossuiAvaliacoesAtivas(Long id) {
+        String sql = "SELECT * FROM Avaliacao WHERE modulo_id=:modulo_id";
+        List<Avaliacao> avaliacoes = this.entityManager.createNativeQuery(sql, Avaliacao.class)
+                .setParameter("modulo_id", id)
+                .getResultList();
+        return avaliacoes != null;
     }
 
 }

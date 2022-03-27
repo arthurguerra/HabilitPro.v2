@@ -29,11 +29,9 @@ public class Avaliacao {
     public Avaliacao() {
     }
 
-    public Avaliacao(Modulo modulo, Trabalhador trabalhador, NotaEnum nota, String anotacoes) {
+    public Avaliacao(Modulo modulo, Trabalhador trabalhador) {
         this.modulo = modulo;
         this.trabalhador = trabalhador;
-        this.nota = nota;
-        this.anotacoes = anotacoes;
     }
 
     public Long getId() {
