@@ -1,9 +1,9 @@
 package habilitpro.enums;
 
 public enum PerfilAcessoEnum implements StringValueEnum{
-    administrativo("administrativo", "Administrativo (equipe SENAI) - Realizar cadastros gerais, parametrizações e emissão de relatórios"),
-    operacional("operacional", "Operacional (Supervisor da empresa) - Realizar processo de avaliação e emissão de relatórios"),
-    rh("rh", "RH (equipe RH) - Acompanhar processo de avaliação e emissão de relatórios");
+    administrativo("administrativo", "Administrativo"),
+    operacional("operacional", "Operacional"),
+    rh("rh", "Recursos Humanos");
 
     private String idPerfil;
     private String descricaoPerfil;
