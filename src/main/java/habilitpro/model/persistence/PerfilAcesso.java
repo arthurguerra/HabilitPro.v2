@@ -11,20 +11,21 @@ public class PerfilAcesso {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST,
+            CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name="usuario_id", nullable = false)
     private Usuario usuario;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private PerfilAcessoEnum perfilAcesso;
+    private PerfilAcessoEnum perfilAcessoEnum;
 
     public PerfilAcesso() {
     }
 
-    public PerfilAcesso(Usuario usuario, PerfilAcessoEnum perfilAcesso) {
+    public PerfilAcesso(Usuario usuario, PerfilAcessoEnum perfilAcessoEnum) {
         this.usuario = usuario;
-        this.perfilAcesso = perfilAcesso;
+        this.perfilAcessoEnum = perfilAcessoEnum;
     }
 
     public long getId() {
@@ -44,19 +45,19 @@ public class PerfilAcesso {
     }
 
     public PerfilAcessoEnum getPerfilAcesso() {
-        return perfilAcesso;
+        return perfilAcessoEnum;
     }
 
     public void setPerfilAcesso(PerfilAcessoEnum perfilAcesso) {
-        this.perfilAcesso = perfilAcesso;
+        this.perfilAcessoEnum = perfilAcesso;
     }
 
     @Override
     public String toString() {
         return "Perfil{" +
                 "id=" + id +
-                ", usuario=" + usuario +
-                ", perfilAcesso=" + perfilAcesso +
+                ", usuario=" + usuario.getNome() +
+                ", perfilAcesso=" + perfilAcessoEnum.getValue() +
                 '}';
     }
 }
