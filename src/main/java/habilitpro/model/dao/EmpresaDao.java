@@ -3,7 +3,6 @@ package habilitpro.model.dao;
 import habilitpro.model.persistence.Empresa;
 import habilitpro.model.persistence.Trabalhador;
 import habilitpro.model.persistence.Trilha;
-import habilitpro.model.persistence.Usuario;
 
 import javax.persistence.EntityManager;
 import java.util.List;
